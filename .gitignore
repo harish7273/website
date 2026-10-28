@@ -1,0 +1,12 @@
+node_modules/
+screenshots/
+dist/
+*.log
+*.png
+test_*.js
+inspect_*.js
+deploy_*.js
+create_*.js
+verify_*.js
+surge_auth.json
+package*.json

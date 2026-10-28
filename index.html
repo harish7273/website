@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Happy Birthday! ✨ A Special Surprise</title>
+  
+  <!-- SEO & Social Sharing meta tags -->
+  <meta name="description" content="A cinematic, heartfelt birthday celebration website.">
+  <meta property="og:title" content="Happy Birthday! ✨ A Magical Wish">
+  <meta property="og:description" content="Tap to open your personalized birthday celebration!">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#ff4d8d">
+
+  <!-- Google Fonts Preconnect & Stylesheets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Starfield Canvas -->
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- Floating Audio Player Control -->
+  <aside class="audio-control-wrapper" aria-label="Audio Controls">
+    <button id="music-toggle-btn" class="music-btn" aria-label="Toggle background music" title="Toggle Music">
+      <div class="equalizer-bars" aria-hidden="true">
+        <span class="bar bar-1"></span>
+        <span class="bar bar-2"></span>
+        <span class="bar bar-3"></span>
+        <span class="bar bar-4"></span>
+      </div>
+      <span class="music-label">Music</span>
+    </button>
+    <audio id="bg-audio" preload="auto" loop></audio>
+  </aside>
+
+  <!-- ==========================================
+       SECTION 1: INTRO / GATE (Sound Unlock & Countdown)
+       ========================================== -->
+  <section id="gate-section" class="screen-section gate-screen" aria-label="Surprise Welcome Gate">
+    <div class="gate-vignette" aria-hidden="true"></div>
+    <div class="gate-content">
+      <div class="gate-icon-pulse" aria-hidden="true">
+        <div class="pulse-ring pulse-ring-1"></div>
+        <div class="pulse-ring pulse-ring-2"></div>
+        <div class="gift-emblem">🎁</div>
+      </div>
+
+      <p class="gate-eyebrow">A Special Surprise Awaits</p>
+      <h1 class="gate-title">For Someone Truly Wonderful</h1>
+      <p class="gate-subtitle">Put on your headphones for the best experience 🎧</p>
+
+      <button id="open-surprise-btn" class="btn btn-primary pulse-btn" aria-label="Tap to open your birthday surprise">
+        <span class="btn-text">Tap to Open Your Surprise</span>
+        <span class="btn-glow" aria-hidden="true"></span>
+      </button>
+
+      <p class="gate-hint">Sound will turn on automatically</p>
+    </div>
+
+    <!-- 3-2-1 Countdown Overlay inside the Gate -->
+    <div id="countdown-overlay" class="countdown-overlay hidden" aria-live="assertive" aria-hidden="true">
+      <div class="countdown-container">
+        <div class="countdown-sparkle-ring"></div>
+        <div id="countdown-number" class="countdown-number">3</div>
+        <p class="countdown-tagline">Preparing your magic...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       MAIN EXPERIENCE (Revealed after Countdown)
+       ========================================== -->
+  <main id="main-content" class="main-flow hidden">
+
+    <!-- Progress Indicator Bar -->
+    <div class="scroll-progress-bar" id="scroll-progress" aria-hidden="true"></div>
+
+    <!-- ==========================================
+         SECTION 2: HERO CELEBRATION
+         ========================================== -->
+    <section id="hero-section" class="screen-section hero-screen" aria-label="Birthday Greeting">
+      <div class="floating-balloons-container" id="balloons-container" aria-hidden="true"></div>
+      
+      <div class="hero-content">
+        <div class="hero-badge animate-on-load">
+          <span class="badge-icon">✨</span>
+          <span class="badge-text" id="hero-badge-text">Today is all about you</span>
+          <span class="badge-icon">✨</span>
+        </div>
+
+        <!-- Animated letter-by-letter heading -->
+        <h1 class="hero-title" id="hero-title" aria-label="Happy Birthday">
+          <!-- Populated dynamically via JS with spans for 60fps stagger -->
+          <span class="hero-line hero-line-top">Happy Birthday</span>
+          <span class="hero-line hero-line-name" id="hero-name-target">Priya</span>
+        </h1>
+
+        <div class="nickname-pill" id="nickname-container">
+          <span class="pill-label">Forever our</span>
+          <span class="pill-name" id="hero-nickname">Chellam</span>
+          <span class="pill-emoji">💖</span>
+        </div>
+
+        <!-- Age Counter Component -->
+        <div class="age-counter-card" id="age-card">
+          <div class="age-ring-glow"></div>
+          <span class="age-prefix">Celebrating</span>
+          <div class="age-number-row">
+            <span class="age-number" id="age-counter">0</span>
+            <span class="age-plus">th</span>
+          </div>
+          <span class="age-suffix">Radiant Year of Joy</span>
+        </div>
+
+        <div class="scroll-prompt" aria-hidden="true">
+          <span class="prompt-text">Scroll to make a wish</span>
+          <div class="prompt-mouse">
+            <div class="prompt-wheel"></div>
+          </div>
+          <div class="prompt-arrow">↓</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 3: CAKE & CANDLE BLOW SCENE
+         ========================================== -->
+    <section id="cake-section" class="screen-section cake-screen" aria-label="Birthday Cake and Candle">
+      <div class="section-header">
+        <span class="section-tag">Sweet Tradition</span>
+        <h2 class="section-title">Blow Out The Candles</h2>
+        <p class="section-desc">Make a silent wish from the bottom of your heart</p>
+      </div>
+
+      <div class="cake-stage">
+        <!-- Interactive Multi-layer Cake Graphic -->
+        <div class="cake-wrapper" id="cake-wrapper">
+          <!-- Cake Glow Backlight -->
+          <div class="cake-glow" id="cake-glow" aria-hidden="true"></div>
+
+          <!-- Candle & Flames -->
+          <div class="candles-rack" id="candles-rack">
+            <div class="candle" id="candle-1">
+              <div class="smoke" id="smoke-1" aria-hidden="true"></div>
+              <div class="flame-halo" id="halo-1"></div>
+              <div class="flame" id="flame-1">
+                <div class="flame-inner"></div>
+              </div>
+              <div class="wick"></div>
+              <div class="candle-stick candle-stick-pink"></div>
+            </div>
+
+            <div class="candle" id="candle-center">
+              <div class="smoke" id="smoke-center" aria-hidden="true"></div>
+              <div class="flame-halo" id="halo-center"></div>
+              <div class="flame" id="flame-center">
+                <div class="flame-inner"></div>
+              </div>
+              <div class="wick"></div>
+              <div class="candle-stick candle-stick-gold"></div>
+            </div>
+
+            <div class="candle" id="candle-2">
+              <div class="smoke" id="smoke-2" aria-hidden="true"></div>
+              <div class="flame-halo" id="halo-2"></div>
+              <div class="flame" id="flame-2">
+                <div class="flame-inner"></div>
+              </div>
+              <div class="wick"></div>
+              <div class="candle-stick candle-stick-pink"></div>
+            </div>
+          </div>
+
+          <!-- Cake Layers -->
+          <div class="cake-body">
+            <!-- Top Frosting & Cherries -->
+            <div class="cake-layer cake-layer-top">
+              <div class="frosting-drips">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="frosting-creams">
+                <span class="cream-piping">🍓</span>
+                <span class="cream-piping">✨</span>
+                <span class="cream-piping">🍓</span>
+              </div>
+            </div>
+            
+            <!-- Middle Layer -->
+            <div class="cake-layer cake-layer-middle">
+              <div class="frosting-filling"></div>
+              <div class="cake-decorations">
+                <span class="star-pip">✦</span>
+                <span class="star-pip">✦</span>
+                <span class="star-pip">✦</span>
+              </div>
+            </div>
+
+            <!-- Base Layer -->
+            <div class="cake-layer cake-layer-bottom">
+              <div class="frosting-swirls"></div>
+            </div>
+
+            <!-- Cake Plate Stand -->
+            <div class="cake-stand">
+              <div class="stand-plate"></div>
+              <div class="stand-pedestal"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wish Message Revealed After Blow -->
+        <div class="wish-reveal-box hidden" id="wish-reveal-box" aria-live="polite">
+          <div class="wish-sparkle-badge">✨ Wish Locked In ✨</div>
+          <h3 class="wish-title">May All Your Dreams Come True!</h3>
+          <p class="wish-text">The universe has heard your wish. Keep shining bright! 🌟</p>
+        </div>
+
+        <!-- Blow Controls -->
+        <div class="cake-actions" id="cake-actions">
+          <button id="blow-btn" class="btn btn-cake-blow" aria-label="Blow out the candles">
+            <span class="btn-icon">💨</span>
+            <span class="btn-text">Blow The Candles</span>
+          </button>
+          
+          <button id="mic-blow-btn" class="btn btn-mic-toggle" aria-label="Use microphone to blow candle">
+            <span class="mic-icon" id="mic-icon">🎙️</span>
+            <span class="mic-text" id="mic-status-text">Blow into Mic</span>
+          </button>
+        </div>
+
+        <p class="mic-hint-text" id="mic-hint-text">Tip: Allow microphone and blow softly into your device!</p>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 4: HEARTFELT MESSAGE (Typewriter)
+         ========================================== -->
+    <section id="message-section" class="screen-section message-screen" aria-label="Heartfelt Letter">
+      <div class="message-card-wrapper">
+        <div class="glass-card letter-card" id="letter-card">
+          
+          <div class="card-ornament ornament-tl" aria-hidden="true">✦</div>
+          <div class="card-ornament ornament-br" aria-hidden="true">✦</div>
+          
+          <div class="wax-seal" aria-hidden="true">
+            <span class="seal-heart">❤</span>
+          </div>
+
+          <div class="letter-header">
+            <span class="letter-salutation" id="letter-salutation">Dearest Harishma,</span>
+          </div>
+
+          <!-- Attached Photo in the Wish -->
+          <div class="wish-photo-attachment" id="wish-photo-attachment">
+            <div class="paperclip-icon" aria-hidden="true">📎</div>
+            <div class="attachment-frame">
+              <img id="wish-attached-img" src="assets/p1.jpg" alt="Harishma memory" class="attached-img" onerror="this.onerror=null; this.src='assets/p2.jpg';">
+              <div class="attachment-caption">Best Friends Forever 💖</div>
+            </div>
+            <div class="attachment-upload-btn-wrap">
+              <label for="wish-photo-input" class="btn-attach-photo" title="Attach/Change Wish Photo">
+                <span class="attach-icon">📷</span>
+                <span class="attach-text">Attach / Change Wish Photo</span>
+              </label>
+              <input type="file" id="wish-photo-input" accept="image/*" class="hidden-file-input">
+            </div>
+          </div>
+
+          <!-- Typewriter container -->
+          <div class="letter-body">
+            <p id="typewriter-text" class="typewriter-text"></p>
+            <span id="typewriter-cursor" class="typewriter-cursor" aria-hidden="true">|</span>
+          </div>
+
+          <div class="letter-signature">
+            <span class="sig-pre">With endless love & warmth,</span>
+            <span class="sig-name" id="letter-from-name">Harish</span>
+          </div>
+
+          <div class="letter-actions">
+            <button id="replay-typewriter-btn" class="btn-icon-text" aria-label="Replay letter typing animation">
+              <span class="btn-icon">↺</span> Re-read letter
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 5: POLAROID MEMORY GALLERY
+         ========================================== -->
+    <section id="gallery-section" class="screen-section gallery-screen" aria-label="Cherished Memories Gallery">
+      <div class="section-header">
+        <span class="section-tag">Frames of Joy</span>
+        <h2 class="section-title">Our Cherished Moments</h2>
+        <p class="section-desc">Every snapshot holds a story, a laugh, and a piece of my heart</p>
+      </div>
+
+      <div class="gallery-scatter-grid" id="gallery-grid">
+        <!-- Rendered dynamically by script.js from CONFIG.photos -->
+      </div>
+
+      <p class="gallery-hint">Tap any photo to view in high resolution 🔍</p>
+    </section>
+
+    <!-- Lightbox Modal for Gallery -->
+    <div id="lightbox-modal" class="lightbox-modal hidden" role="dialog" aria-modal="true" aria-label="Photo Viewer">
+      <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+      
+      <div class="lightbox-dialog">
+        <button id="lightbox-close" class="lightbox-close-btn" aria-label="Close photo viewer">&times;</button>
+        
+        <div class="lightbox-media-container" id="lightbox-swipe-area">
+          <img id="lightbox-img" src="" alt="Selected birthday memory" class="lightbox-image">
+          <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+
+        <button id="lightbox-prev" class="lightbox-nav-btn nav-prev" aria-label="Previous photo">&#10094;</button>
+        <button id="lightbox-next" class="lightbox-nav-btn nav-next" aria-label="Next photo">&#10095;</button>
+
+        <div class="lightbox-dots" id="lightbox-dots"></div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SECTION 6: REASONS WHY YOU ARE SPECIAL
+         ========================================== -->
+    <section id="reasons-section" class="screen-section reasons-screen" aria-label="Reasons Why You Are Special">
+      <div class="section-header">
+        <span class="section-tag">Infinite Gratitude</span>
+        <h2 class="section-title" id="reasons-title">5 Reasons Why You're Special</h2>
+        <p class="section-desc">Tap each card to flip and discover what makes you irreplaceable</p>
+      </div>
+
+      <div class="reasons-progress" id="reasons-progress-indicator">
+        <span id="reasons-unlocked-count">0</span> of <span id="reasons-total-count">5</span> reasons uncovered ✨
+      </div>
+
+      <div class="reasons-deck" id="reasons-deck">
+        <!-- Injected via JavaScript from CONFIG.reasons -->
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 7: FINAL SURPRISE & GIFT BOX
+         ========================================== -->
+    <section id="surprise-section" class="screen-section surprise-screen" aria-label="Final Birthday Surprise">
+      <div class="section-header">
+        <span class="section-tag">One Last Surprise</span>
+        <h2 class="section-title">A Gift Straight From The Heart</h2>
+        <p class="section-desc">Tap the box to unlock the secret note inside</p>
+      </div>
+
+      <div class="gift-box-stage">
+        <!-- 3D Interactive Gift Box -->
+        <div class="gift-box" id="gift-box" role="button" tabindex="0" aria-label="Tap to unwrap your gift box">
+          <!-- Gift Lid with 3D Ribbon & Bow -->
+          <div class="gift-lid" id="gift-lid">
+            <div class="lid-ribbon-h"></div>
+            <div class="lid-ribbon-v"></div>
+            <div class="bow-wrap">
+              <span class="bow-loop bow-left"></span>
+              <span class="bow-loop bow-right"></span>
+              <span class="bow-knot"></span>
+            </div>
+          </div>
+
+          <!-- Gift Base -->
+          <div class="gift-base">
+            <div class="base-ribbon-h"></div>
+            <div class="base-ribbon-v"></div>
+            <div class="gift-sparkles" aria-hidden="true">
+              <span class="gift-sparkle sp-1">✨</span>
+              <span class="gift-sparkle sp-2">💖</span>
+              <span class="gift-sparkle sp-3">✨</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="gift-tap-cue" id="gift-tap-cue">
+          <span class="cue-hand">👆</span> Tap the gift to unbox
+        </p>
+      </div>
+
+      <!-- Secret Note Unfolded Container -->
+      <div class="secret-note-card hidden" id="secret-note-card" aria-live="polite">
+        <div class="note-paper">
+          <div class="note-ribbon-badge">Secret Note</div>
+
+          <!-- Secret Note Attached Photo -->
+          <div class="note-photo-frame" id="note-photo-frame">
+            <img id="note-attached-img" src="assets/p2.jpg" alt="Harishma memory" class="note-img">
+          </div>
+
+          <p class="note-quote-mark">“</p>
+          <p class="note-text" id="secret-note-text"></p>
+          <p class="note-quote-mark end-quote">”</p>
+          
+          <div class="note-hearts-row">
+            <span>💖</span><span>🌸</span><span>✨</span><span>🌸</span><span>💖</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons: Replay & Send Wish Back via WhatsApp -->
+      <div class="final-actions" id="final-actions">
+        <a id="whatsapp-wish-btn" class="btn btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer" aria-label="Send a thank you wish back via WhatsApp">
+          <span class="btn-icon">💬</span>
+          <span class="btn-text">Send a Wish Back</span>
+        </a>
+
+        <button id="replay-all-btn" class="btn btn-replay" aria-label="Replay the birthday celebration from the beginning">
+          <span class="btn-icon">↺</span>
+          <span class="btn-text">Replay Celebration</span>
+        </button>
+      </div>
+
+      <!-- Footer Credits -->
+      <footer class="site-footer">
+        <p class="footer-note">Handcrafted with boundless love for <span class="footer-highlight" id="footer-for-name">Priya</span></p>
+        <p class="footer-sub">Forever & Always ✨</p>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- External CDN Dependencies -->
+  <!-- GSAP Core & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Canvas-Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- Main Application Script -->
+  <script src="script.js"></script>
+</body>
+</html>
