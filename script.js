@@ -404,15 +404,22 @@ function initCelebrationClock() {
   const elHours = document.getElementById("time-hours");
   const elMins = document.getElementById("time-mins");
   const elSecs = document.getElementById("time-secs");
+  const lblYears = document.getElementById("label-years");
+  const lblDays = document.getElementById("label-days");
 
   const targetBday = new Date("2026-11-26T00:00:00");
+  const params = new URLSearchParams(window.location.search);
+  const isPreviewBday = params.get("bday") === "true" || params.get("celebrate") === "true";
 
   function update() {
     const now = new Date();
 
-    if (now >= targetBday) {
-      // It is her 19th birthday!
-      if (clockTitle) clockTitle.textContent = "Officially 19 Years of Pure Sunshine! 🐮✨";
+    if (now >= targetBday || isPreviewBday) {
+      // It is her 19th birthday! (Nov 26, 2026)
+      if (clockTitle) clockTitle.textContent = "🎉 Officially 19 Today! Celebrating Kowshi's 19th Birthday! 🐮✨";
+      if (lblYears) lblYears.textContent = "Years Old";
+      if (lblDays) lblDays.textContent = "Days";
+
       const diffSinceBday = Math.max(0, now - targetBday);
       const totalSeconds = Math.floor(diffSinceBday / 1000);
       const seconds = totalSeconds % 60;
@@ -438,8 +445,10 @@ function initCelebrationClock() {
       const hours = totalHours % 24;
       const totalDays = Math.floor(totalHours / 24);
 
-      if (clockTitle) clockTitle.textContent = "Countdown to Kowsh's 19th Birthday (Nov 26) 🐮";
-      if (elYears) elYears.textContent = "19";
+      if (clockTitle) clockTitle.textContent = "Countdown to Kowsh's 19th Birthday (Nov 26, 2026) 🐮";
+      if (lblYears) lblYears.textContent = "Turning";
+      if (lblDays) lblDays.textContent = "Days Left";
+      if (elYears) elYears.textContent = "19th";
       if (elDays) elDays.textContent = String(totalDays).padStart(2, "0");
       if (elHours) elHours.textContent = String(hours).padStart(2, "0");
       if (elMins) elMins.textContent = String(minutes).padStart(2, "0");
