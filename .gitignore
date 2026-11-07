@@ -9,4 +9,3 @@ deploy_*.js
 create_*.js
 verify_*.js
 surge_auth.json
-package*.json
